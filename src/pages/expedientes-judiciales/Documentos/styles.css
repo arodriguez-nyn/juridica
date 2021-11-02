@@ -1,0 +1,13 @@
+.documentacion-footer {
+    display: flex;
+    justify-content: end;
+    margin-top: 1rem;
+}
+
+.footer__btn {
+    width: 100%;
+}
+
+.footer__input-file {
+    width: 150px;
+}

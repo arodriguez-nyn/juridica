@@ -1,0 +1,45 @@
+.navegacion {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.navegacion__bloque {
+    color: var(--default-color);
+    font-size: 0.8rem;
+}
+
+.bloque__label {
+    font-size: 1rem;
+    margin-left: 2rem;
+}
+
+.bloque__label:first-of-type {
+    margin-left: 0;
+}
+
+.bloque__select {
+    margin-left: 1rem;
+}
+
+.selector-lineas {
+    color: var(--font-color);
+    padding: var(--padding);
+    border: none;
+    border-bottom: 1px solid #d2d6de;
+    margin-bottom: 1rem;
+    line-height: 1.42857143;
+    text-align: left;
+    height: 30px;
+    font-size: 1rem;
+}
+
+.selector-lineas:hover {
+    cursor: pointer;
+}
+
+.selector-lineas:focus {
+    outline: none;
+}

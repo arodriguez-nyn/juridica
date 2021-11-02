@@ -1,0 +1,12 @@
+.solares-layout {
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: var(--header-height);
+    overflow: hidden;
+    padding-top: 30px;
+}
+
+.menu--show {
+    transition: var(--transition);
+}

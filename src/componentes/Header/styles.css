@@ -1,0 +1,36 @@
+.header {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    background: var(--primary-green);
+    color: #fff;
+    width: 100%;
+    height: var(--header-height);
+    padding: 0.5rem;
+}
+
+.logo-cabecera {
+    width: 300px;
+    height: auto;
+    transform: translateX(0);
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transform: var(--transition);
+}
+
+.user svg {
+    border: 2px solid #fff;
+    border-radius: 50px;
+    color: var(--primary-success);
+}
+
+.user svg:hover {
+    cursor: pointer;
+    color: var(--primary-error);
+}

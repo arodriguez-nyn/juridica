@@ -1,0 +1,19 @@
+.caja-alerta {
+    padding: 0.45rem;
+    border-radius: 0.25rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.caja-error {
+    border: 1px solid var(--primary-error);
+    background-color: var(--secondary-error);
+    color: #fff;
+}
+
+.caja-exito {
+    border: 1px solid var(--primary-success);
+    background-color: var(--secondary-success);
+    color: #fff;
+}

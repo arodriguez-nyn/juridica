@@ -1,0 +1,14 @@
+.footer1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer2 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer__btn {
+    max-width: 150px;
+    justify-content: right;
+}

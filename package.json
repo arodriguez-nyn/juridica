@@ -1,0 +1,49 @@
+{
+    "name": "nynapp",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "webpack serve --mode development --config=webpack.config.dev.js --open",
+        "build": "webpack --mode production --config=webpack.config.prod.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "homepage": "http://192.168.1.11/",
+    "devDependencies": {
+        "babel-eslint": "^10.1.0",
+        "babel-loader": "^8.2.2",
+        "css-loader": "^6.3.0",
+        "eslint": "^7.32.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "file-loader": "^6.2.0",
+        "html-webpack-plugin": "^5.3.2",
+        "husky": "^7.0.2",
+        "prettier": "^2.4.1",
+        "style-loader": "^3.3.0",
+        "webpack": "^5.53.0",
+        "webpack-cli": "^4.8.0",
+        "webpack-dev-server": "^4.2.1",
+        "webpack-merge": "^5.8.0"
+    },
+    "dependencies": {
+        "@babel/cli": "^7.15.7",
+        "@babel/core": "^7.15.5",
+        "@babel/preset-react": "^7.14.5",
+        "@fortawesome/fontawesome-free": "^5.15.4",
+        "@progress/jsdo": "^4.4.1",
+        "@progress/jsdo-core": "^6.0.1",
+        "axios": "^0.22.0",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-number-format": "^4.7.3",
+        "react-router-dom": "^5.3.0"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "pretty-quick --staged"
+        }
+    }
+}

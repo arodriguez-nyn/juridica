@@ -1,0 +1,74 @@
+.background {
+    background-color: var(--primary-green);
+    padding-top: 7%;
+    height: 100vh;
+}
+
+.contenedor-login {
+    width: 450px;
+    margin: 0 auto;
+}
+
+.contenedor-login__caja-login {
+    width: 450px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.contenedor-login__titulo {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.contenedor-login__btn-submit {
+    width: 100%;
+    height: 35px;
+    margin-top: 1.2rem;
+}
+
+.contenedor-login__logo {
+    display: block;
+    margin: 1rem auto;
+}
+
+.contenedor-login__campo-agrupado {
+    position: relative;
+}
+
+.campo-agrupado__icono {
+    position: absolute;
+    color: var(--default-color);
+    right: 7px;
+    top: 5px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.campo-agrupado__campo {
+    color: var(--secondary-color);
+    padding: var(--padding);
+    border: none;
+    border-bottom: 1px solid #d2d6de;
+    margin-bottom: 0.5rem;
+    line-height: 1.42857143;
+    width: 100%; /* Para eliminar el tamaño por defecto del input, lo que rompía el grid layout */
+    height: 30px;
+    font-size: 1rem;
+}
+
+.campo-agrupado__campo:focus {
+    outline: none;
+    border-bottom: 3px solid var(--secondary-blue);
+    box-shadow: 0 0 2px #c3c3c3 inset;
+    background-color: var(--background-focus);
+    color: var(--secondary-color);
+}
+
+.campo-agrupado__campo-error:focus {
+    outline: none;
+    border-bottom: 3px solid var(--primary-error);
+    box-shadow: 0 0 2px #c3c3c3 inset;
+    background-color: #f9e7e7a1;
+    color: var(--secondary-color);
+}
