@@ -5,18 +5,12 @@ import { NavLink } from 'react-router-dom'
 
 import './styles.css'
 
-const ExpedientesJudicialesMenu = ({ showParentMenu }) => {
-    /* -------------------------------------------------------------------- */
-    /* --------------------- CONSTANTES Y DECLARACIONES ------------------- */
-    /* -------------------------------------------------------------------- */
-    const [showMenu, setShowMenu] = useState(false)
-
+const ExpedientesJudicialesMenu = ({ showMenu, setShowMenu }) => {
     /* -------------------------------------------------------------------- */
     /* ----------------------------- FUNCIONES ---------------------------- */
     /* -------------------------------------------------------------------- */
     const handleClickMenu = () => {
         setShowMenu(!showMenu)
-        showParentMenu(!showMenu)
     }
 
     /* ------------------------------------------------------------------- */
@@ -35,8 +29,8 @@ const ExpedientesJudicialesMenu = ({ showParentMenu }) => {
                         activeClassName='active'
                     >
                         <i
-                            className='fas fa-table main-menu__icon'
-                            title='Lista'
+                            className='far fa-list-alt main-menu__icon'
+                            title='Lista de expedientes'
                         ></i>
                         <span>Lista</span>
                     </NavLink>
@@ -44,16 +38,32 @@ const ExpedientesJudicialesMenu = ({ showParentMenu }) => {
                 <li className='main-menu__item'>
                     <NavLink
                         className='nav-link'
-                        to='/expeju/formulario'
+                        to='/exjute'
                         exact
                         activeClassName='active'
                     >
                         <i
-                            className='far fa-file-alt main-menu__icon'
-                            title='Formulario'
+                            className='far fa-comment-dots main-menu__icon'
+                            title='Temas'
                         ></i>
                         <span className='main-menu__label' title='Formulario'>
-                            Formulario
+                            Temas
+                        </span>
+                    </NavLink>
+                </li>
+                <li className='main-menu__item'>
+                    <NavLink
+                        className='nav-link'
+                        to='/exjuab'
+                        exact
+                        activeClassName='active'
+                    >
+                        <i
+                            className='fas fa-gavel main-menu__icon'
+                            title='Abogados'
+                        ></i>
+                        <span className='main-menu__label' title='Formulario'>
+                            Abogados
                         </span>
                     </NavLink>
                 </li>

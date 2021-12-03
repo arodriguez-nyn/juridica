@@ -34,7 +34,6 @@ const ModalAyudaObras = ({
             obtenerRegistrosAuxiliar(filtro, tabla).then(jsdo => {
                 const { success, request } = jsdo
                 if (success) {
-                    console.log(jsdo)
                     const lista = request.response.dsOBRAS.ttOBRAS
                     setLista(lista)
                 } else {

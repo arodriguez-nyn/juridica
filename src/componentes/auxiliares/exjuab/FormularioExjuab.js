@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 
 import './styles.css'
 
-const FormularioExjute = ({
+const FormularioExjuab = ({
     registroActual,
     guardarRegistro,
     setMensaje,
@@ -15,9 +15,9 @@ const FormularioExjute = ({
     /* --------------------- CONSTANTES Y DECLARACIONES ------------------- */
     /* -------------------------------------------------------------------- */
     const [inputData, setInputData] = useState({
-        descri: '',
+        nombre: '',
     })
-    const { descri } = inputData
+    const { nombre } = inputData
     const history = useHistory()
 
     /* -------------------------------------------------------------------- */
@@ -35,8 +35,8 @@ const FormularioExjute = ({
             return 'Error al guardar los datos'
         }
 
-        if (!descri || descri === '') {
-            return 'La descripción es obligatoria'
+        if (!nombre || nombre === '') {
+            return 'El nombre es obligatorio'
         }
 
         return ''
@@ -75,9 +75,13 @@ const FormularioExjute = ({
 
     const clear = () => {
         setInputData({
-            descri: '',
+            nombre: '',
         })
         setMensaje(null)
+    }
+
+    const handleBack = () => {
+        history.push('/expeju/formulario')
     }
 
     const handleClear = () => {
@@ -95,7 +99,7 @@ const FormularioExjute = ({
         }
 
         setInputData({
-            descri: registroActual.DESCRI,
+            nombre: registroActual.NOMBRE,
         })
     }, [registroActual])
 
@@ -106,17 +110,17 @@ const FormularioExjute = ({
         <>
             <form>
                 <h2 className='contenedor__main__h2'>
-                    Formulario Temas Expedientes
+                    Formulario Abogados Expediente
                 </h2>
                 <div className='grid col-1'>
-                    <label className='form__label' htmlFor='exjute-descri'>
-                        Descripción del Tema
+                    <label className='form__label' htmlFor='exjuab-nombre'>
+                        Nombre del Abogado
                     </label>
                     <input
                         className='form__input span-3'
-                        name='descri'
+                        name='nombre'
                         type='text'
-                        value={descri}
+                        value={nombre}
                         onChange={handleChange}
                     />
                 </div>
@@ -167,4 +171,4 @@ const FormularioExjute = ({
     )
 }
 
-export default FormularioExjute
+export default FormularioExjuab

@@ -1,10 +1,10 @@
 import { progress } from '@progress/jsdo-core'
 
-const serviceURI = 'http://localhost:7020/nynweb'
-const catalogURI = 'http://localhost:7020/nynweb/static/nynwebService.json'
+// const serviceURI = 'http://localhost:7020/nynweb'
+// const catalogURI = 'http://localhost:7020/nynweb/static/nynwebService.json'
 
-// const serviceURI = 'https://192.168.1.221:8302/nynweb'
-// const catalogURI = 'https://192.168.1.221:8302/nynweb/static/nynwebService.json'
+const serviceURI = 'https://192.168.1.221:8302/nynweb'
+const catalogURI = 'https://192.168.1.221:8302/nynweb/static/nynwebService.json'
 
 const authenticationModel = progress.data.Session.AUTH_TYPE_FORM
 const name = 'sesionActualKey'
@@ -26,7 +26,7 @@ export const conectar = (username = '', password = '') => {
             return respuesta
         })
         .catch(error => {
-            console.log(error)
+            console.log('error conectar', error)
             return error
         })
 }

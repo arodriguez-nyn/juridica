@@ -1,0 +1,5 @@
+.lista {
+    margin-top: 1rem;
+    border-top: 2px solid var(--primary-green);
+    padding-top: 1rem;
+}

@@ -5,12 +5,13 @@
     height: calc(100vh - var(--header-height));
     background: #fff;
     border-right: 1px solid var(--secondary-color);
-    transform: translateX(-150px);
+    z-index: 100;
+    transform: translateX(-140px);
     transition: all 0.3s ease;
 }
 
 .nav--show {
-    transform: translateX(0px);
+    transform: translateX(0);
 }
 
 .toggle-menu {
@@ -50,7 +51,7 @@
 .main-menu__icon {
     margin-right: -0.5rem;
     font-size: 1.5rem;
-    transform: translateX(150px);
+    transform: translateX(140px);
 }
 
 .main-menu--show .main-menu__icon {

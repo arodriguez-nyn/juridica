@@ -5,29 +5,29 @@ import { useHistory } from 'react-router-dom'
 
 // Servicios
 import {
-    guardaExjute,
-    borrarExjute,
-    obtenerRegistrosExjute,
-} from 'services/exjute'
+    guardaExjuab,
+    borrarExjuab,
+    obtenerRegistrosExjuab,
+} from 'services/exjuab'
 
 // Contexto
 import SolaresContext from 'context/SolaresContext'
 import AppContext from 'context/AppContext'
 
 // Hooks
-import useNavegacionExjute from 'hooks/navegacion/useNavegacionExjute'
+import useNavegacionExjuab from 'hooks/navegacion/useNavegacionExjuab'
 
 // Componentes
 import Alerta from 'componentes/Alerta'
-import FiltroListaExjute from 'componentes/filtros/FiltroListaExjute'
+import FiltroListaExjuab from 'componentes/filtros/FiltroListaExjuab'
 import ModalLoading from 'componentes/modales/ModalLoading'
-import FormularioExjute from 'componentes/auxiliares/exjute/FormularioExjute'
-import ListaExjute from 'componentes/auxiliares/exjute/ListaExjute'
+import FormularioExjuab from 'componentes/auxiliares/Exjuab/FormularioExjuab'
+import ListaExjuab from 'componentes/auxiliares/Exjuab/ListaExjuab'
 import Navegacion from 'componentes/Navegacion'
 
 import './styles.css'
 
-const Exjute = () => {
+const Exjuab = () => {
     /* -------------------------------------------------------------------- */
     /* --------------------- CONSTANTES Y DECLARACIONES ------------------- */
     /* -------------------------------------------------------------------- */
@@ -38,13 +38,13 @@ const Exjute = () => {
     const history = useHistory()
     const {
         ordenacion,
-        filtroActualExjute,
-        registroActualExjute,
-        setRegistroActualExjute,
-        setOrdenacionExjute,
+        filtroActualExjuab,
+        registroActualExjuab,
+        setRegistroActualExjuab,
+        setOrdenacionExjuab,
     } = useContext(SolaresContext)
-    const listaOrdenacion = ['Tema', 'Tema Desc']
-    const tabla = 'exjute'
+    const listaOrdenacion = ['Abogado', 'Abogado Desc']
+    const tabla = 'exjuab'
 
     /* -------------------------------------------------------------------- */
     /* ----------------------------- FUNCIONES ---------------------------- */
@@ -60,22 +60,22 @@ const Exjute = () => {
 
     const guardarRegistro = (
         accion = '',
-        registro = { codtem: 0, descri: '' }
+        registro = { codabo: 0, descri: '' }
     ) => {
         accion !== 'Volver' && setLoading(true)
 
-        guardaExjute(registro, registroActualExjute).then(respuesta => {
+        guardaExjuab(registro, registroActualExjuab).then(respuesta => {
             accion !== 'Volver' && setLoading(false)
 
             const { success } = respuesta
 
             if (success) {
-                setRegistroActualExjute(
-                    respuesta.request.response.dsEXJUTE.ttEXJUTE[0]
+                setRegistroActualExjuab(
+                    respuesta.request.response.dsEXJUAB.ttEXJUAB[0]
                 )
-                // obtenerRegistros(filtroActualExjute)
+                // obtenerRegistros(filtroActualExjuab)
 
-                actualizarVista(filtroActualExjute, paginaExjute, ordenacion)
+                actualizarVista(filtroActualExjuab, paginaExjuab, ordenacion)
                 accion !== 'Volver' &&
                     setMensaje({
                         tipo: 'exito',
@@ -90,14 +90,14 @@ const Exjute = () => {
     }
 
     const borrarRegistro = registroActual => {
-        borrarExjute(registroActual)
+        borrarExjuab(registroActual)
             .then(() => {
                 setMensaje({
                     tipo: 'exito',
                     texto: 'Registro eliminado correctamente',
                 })
-                // setPaginaExjute(paginaExjute ? paginaExjute : 1)
-                actualizarVista(filtroActualExjute, paginaExjute, ordenacion)
+                // setPaginaExjuab(paginaExjuab ? paginaExjuab : 1)
+                actualizarVista(filtroActualExjuab, paginaExjuab, ordenacion)
             })
             .catch(error => {
                 console.log(error)
@@ -114,7 +114,7 @@ const Exjute = () => {
         setLista(null)
         setLoading(true)
 
-        obtenerRegistrosExjute(filtro).then(
+        obtenerRegistrosExjuab(filtro).then(
             jsdo => {
                 setLoading(false)
                 if (!jsdo) {
@@ -126,7 +126,7 @@ const Exjute = () => {
 
                 const { success, request } = jsdo
                 if (success) {
-                    const lista = request.response.dsEXJUTE.ttEXJUTE
+                    const lista = request.response.dsEXJUAB.ttEXJUAB
                     if (lista) {
                         setLista(lista)
                     } else {
@@ -138,39 +138,39 @@ const Exjute = () => {
             },
             error => {
                 setLoading(false)
-                console.log('error ListaExjute', error)
+                console.log('error ListaExjuab', error)
                 return error
             }
         )
     }
 
     const obtieneRegistroActual = registro => {
-        setRegistroActualExjute(registro)
+        setRegistroActualExjuab(registro)
     }
 
     const modificaOrdenacion = campo => {
         let campoOrdenacion = ''
         switch (campo) {
-            case 'Tema':
+            case 'Abogado':
                 campoOrdenacion = {
-                    nombre: 'DESCRI',
-                    descripcion: 'Tema',
+                    nombre: 'NOMBRE',
+                    descripcion: 'Abogado',
                 }
                 break
-            case 'Tema Desc':
+            case 'Abogado Desc':
                 campoOrdenacion = {
-                    nombre: 'DESCRI DESC',
-                    descripcion: 'Tema Desc',
+                    nombre: 'NOMBRE DESC',
+                    descripcion: 'Abogado Desc',
                 }
                 break
         }
         setOrderBy(campoOrdenacion.nombre)
-        setOrdenacionExjute(campoOrdenacion)
+        setOrdenacionExjuab(campoOrdenacion)
     }
 
     // Hook para la paginación
     const {
-        paginaExjute,
+        paginaExjuab,
         numeroPaginas,
         numeroRegistros,
         numeroLineas,
@@ -181,7 +181,7 @@ const Exjute = () => {
         handleUltimo,
         modificaNumeroLineas,
         actualizarVista,
-    } = useNavegacionExjute({
+    } = useNavegacionExjuab({
         obtenerRegistros,
         tabla,
     })
@@ -194,11 +194,11 @@ const Exjute = () => {
 
         if (ordenacion && ordenacion.nombre) setOrderBy(ordenacion.nombre)
 
-        actualizarVista(filtroActualExjute, paginaExjute, ordenacion)
-    }, [usuario, filtroActualExjute, ordenacion])
+        actualizarVista(filtroActualExjuab, paginaExjuab, ordenacion)
+    }, [usuario, filtroActualExjuab, ordenacion])
 
     useEffect(() => {
-        setRegistroActualExjute(null)
+        setRegistroActualExjuab(null)
     }, [])
 
     /* -------------------------------------------------------------------- */
@@ -209,29 +209,29 @@ const Exjute = () => {
             <ModalLoading mostrarModal={loading} />
             <div className='contenedor'>
                 <h1 className='contenedor__h1'>
-                    Mantenimiento de Temas de Expedientes Judiciales
+                    Mantenimiento de Abogados de Expedientes Judiciales
                 </h1>
                 {mensaje && (
                     <Alerta mensaje={mensaje.texto} tipo={mensaje.tipo} />
                 )}
 
                 <div className='contenedor__main'>
-                    <FormularioExjute
-                        registroActual={registroActualExjute}
+                    <FormularioExjuab
+                        registroActual={registroActualExjuab}
                         guardarRegistro={guardarRegistro}
                         setMensaje={setMensaje}
                         obtieneRegistroActual={obtieneRegistroActual}
                     />
                     <div className='lista'>
                         <h2 className='contenedor__main__h2'>
-                            Lista de Temas de Expedientes
+                            Lista de Abogados de Expedientes
                         </h2>
-                        <FiltroListaExjute actualizarVista={actualizarVista} />
+                        <FiltroListaExjuab actualizarVista={actualizarVista} />
                         {lista && (
                             <Navegacion
                                 campoOrdenacion={ordenacion}
                                 ordenacion={listaOrdenacion}
-                                paginaActual={paginaExjute}
+                                paginaActual={paginaExjuab}
                                 numeroPaginas={numeroPaginas}
                                 numeroLineas={numeroLineas}
                                 handleAnterior={handleAnterior}
@@ -243,7 +243,7 @@ const Exjute = () => {
                             />
                         )}
 
-                        <ListaExjute
+                        <ListaExjuab
                             lista={lista}
                             numeroRegistros={numeroRegistros}
                             borrarRegistro={borrarRegistro}
@@ -256,4 +256,4 @@ const Exjute = () => {
     )
 }
 
-export default Exjute
+export default Exjuab

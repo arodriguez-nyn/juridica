@@ -356,8 +356,6 @@ const FormularioExpeju = () => {
         })
     }
 
-    console.log('paginaExpeju', paginaExpeju)
-
     /* -------------------------------------------------------------------- */
     /* ---------------------------- USE EFFECTS --------------------------- */
     /* -------------------------------------------------------------------- */
@@ -746,13 +744,13 @@ const FormularioExpeju = () => {
                                     onChange={handleChange}
                                 >
                                     <option></option>
-                                    <option value='Analizando'>
-                                        Analizando
-                                    </option>
+                                    <option>Analizando</option>
                                     <option>Presentado</option>
                                     <option>Pte. Borrador y/o Susp.</option>
                                     <option>No presentar</option>
                                     <option>Recibido borrador</option>
+                                    <option>Firmado</option>
+                                    <option>Efectuado</option>
                                 </select>
                             </div>
                         </div>
@@ -787,13 +785,13 @@ const FormularioExpeju = () => {
                             )}
                         </div>
                         <div className='footer2'>
-                            <button
+                            {/* <button
                                 className='btn footer__btn'
                                 type='button'
                                 onClick={handleTemas}
                             >
                                 Temas
-                            </button>
+                            </button> */}
                             <button
                                 className='btn footer__btn'
                                 type='button'

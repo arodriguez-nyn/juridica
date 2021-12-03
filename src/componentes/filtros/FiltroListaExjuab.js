@@ -5,23 +5,23 @@ import SolaresContext from 'context/SolaresContext'
 
 import './styles.css'
 
-const FiltroListaExjute = ({ actualizarVista }) => {
+const FiltroListaExjuab = ({ actualizarVista }) => {
     /* -------------------------------------------------------------------- */
     /* --------------------- CONSTANTES Y DECLARACIONES ------------------- */
     /* -------------------------------------------------------------------- */
     const [filtroExpandido, setFiltroExpandido] = useState(false)
-    const { setFiltroExjute, camposFiltroExjute, setCamposFiltroExjute } =
+    const { setFiltroExjuab, camposFiltroExjuab, setCamposFiltroExjuab } =
         useContext(SolaresContext)
     const [inputFiltro, setInputFiltro] = useState(
-        camposFiltroExjute
+        camposFiltroExjuab
             ? {
-                  descri: camposFiltroExjute.DESCRI,
+                  nombre: camposFiltroExjuab.NOMBRE,
               }
             : {
-                  descri: '',
+                  nombre: '',
               }
     )
-    const { descri } = inputFiltro
+    const { nombre } = inputFiltro
 
     /* -------------------------------------------------------------------- */
     /* ----------------------------- FUNCIONES ---------------------------- */
@@ -33,22 +33,22 @@ const FiltroListaExjute = ({ actualizarVista }) => {
         setFiltroExpandido(false)
 
         // Montamos los filtros
-        const filtroTemas =
-            inputFiltro.descri === ''
+        const filtroAbogados =
+            inputFiltro.nombre === ''
                 ? ''
-                : `DESCRI MATCHES '*${inputFiltro.descri}*'`
+                : `NOMBRE MATCHES '*${inputFiltro.nombre}*'`
         let ablFilter = ''
-        if (filtroTemas !== '') {
-            ablFilter = `${filtroTemas} `
+        if (filtroAbogados !== '') {
+            ablFilter = `${filtroAbogados} `
         }
 
         // Guardamos en el contexto para recuperarlo al reentrar en la pantalla
-        setCamposFiltroExjute({
-            DESCRI: inputFiltro.descri,
+        setCamposFiltroExjuab({
+            NOMBRE: inputFiltro.nombre,
         })
 
         actualizarVista(ablFilter, 1, '')
-        setFiltroExjute(ablFilter)
+        setFiltroExjuab(ablFilter)
     }
 
     const handleChange = e => {
@@ -61,18 +61,18 @@ const FiltroListaExjute = ({ actualizarVista }) => {
     const handleLimpiar = () => {
         setFiltroExpandido(false)
         setInputFiltro({
-            descri: '',
+            nombre: '',
         })
         actualizarVista('', 1, '')
-        setFiltroExjute('')
+        setFiltroExjuab('')
     }
 
     useEffect(() => {
-        camposFiltroExjute &&
+        camposFiltroExjuab &&
             setInputFiltro({
-                descri: camposFiltroExjute.DESCRI,
+                nombre: camposFiltroExjuab.NOMBRE,
             })
-    }, [camposFiltroExjute])
+    }, [camposFiltroExjuab])
 
     /* -------------------------------------------------------------------- */
     /* ---------------------------- RENDERIZADO --------------------------- */
@@ -94,13 +94,13 @@ const FiltroListaExjute = ({ actualizarVista }) => {
                         <div className='grid col-2'>
                             <div>
                                 <label htmlFor='filtro-tema'>
-                                    Descripción Tema
+                                    Nombre Abogado
                                 </label>
                                 <input
-                                    id='filtro-tema'
+                                    id='filtro-abogado'
                                     className='form__input'
-                                    name='descri'
-                                    value={descri}
+                                    name='nombre'
+                                    value={nombre}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -124,4 +124,4 @@ const FiltroListaExjute = ({ actualizarVista }) => {
     )
 }
 
-export default FiltroListaExjute
+export default FiltroListaExjuab

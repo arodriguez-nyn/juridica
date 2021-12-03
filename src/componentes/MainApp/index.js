@@ -11,6 +11,7 @@ import FormularioExpeju from 'pages/expedientes-judiciales/FormularioExpeju'
 import ListaExpeju from 'pages/expedientes-judiciales/ListaExpeju'
 import SolaresLayout from 'componentes/layout/SolaresLayout'
 import Exjute from 'pages/auxiliares/Exjute'
+import Exjuab from 'pages/auxiliares/Exjuab'
 import RutaProtegida from 'rutas/RutaProtegida'
 
 const MainApp = () => {
@@ -37,6 +38,11 @@ const MainApp = () => {
                                 exact
                                 path='/exjute'
                                 component={Exjute}
+                            />
+                            <RutaProtegida
+                                exact
+                                path='/exjuab'
+                                component={Exjuab}
                             />
                         </SolaresLayout>
                         {/* <Route exact path='/expeju/documentos'>

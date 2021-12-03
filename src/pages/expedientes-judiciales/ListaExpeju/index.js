@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 
 // Dependencias
 import { useHistory } from 'react-router-dom'
+import XLSX from 'xlsx'
 
 // Servicios
 import { obtenerRegistrosExpeju, borrarExpeju } from 'services/expeju'
@@ -20,7 +21,7 @@ import SolaresContext from 'context/SolaresContext'
 // Hooks
 import useNavegacionExpeju from 'hooks/navegacion/useNavegacionExpeju'
 
-import { formateaFecha } from 'util'
+import { formateaFecha, autoFitCells } from 'util'
 import './styles.css'
 
 const ListaExpeju = () => {
@@ -28,6 +29,7 @@ const ListaExpeju = () => {
     /* --------------------- CONSTANTES Y DECLARACIONES ------------------- */
     /* -------------------------------------------------------------------- */
     const [lista, setLista] = useState([])
+    const [listaExcel, setListaExcel] = useState([])
     const [mensaje, setMensaje] = useState(null)
     const { usuario } = useContext(AppContext)
     const [loading, setLoading] = useState(false)
@@ -38,13 +40,12 @@ const ListaExpeju = () => {
         filtroExpeju,
         registroActualExpeju,
         setRegistroActualExpeju,
-        guardaOrdenacionExpeju,
     } = useContext(SolaresContext)
     const listaOrdenacion = [
         'Expediente',
         'Expediente Desc',
-        'Obra',
-        'Obra Desc',
+        'Tema',
+        'Tema Desc',
         'Abogado',
         'Abogado Desc',
         'Responsable',
@@ -61,6 +62,38 @@ const ListaExpeju = () => {
     /* -------------------------------------------------------------------- */
     /* ----------------------------- FUNCIONES ---------------------------- */
     /* -------------------------------------------------------------------- */
+    const handleClickExport = () => {
+        const filtro = {
+            skip: 0,
+            top: numeroRegistros,
+            filter: filtroExpeju,
+        }
+
+        obtenerRegistrosExcel(filtro)
+    }
+
+    const exportExcel = () => {
+        const ws = XLSX.utils.json_to_sheet(listaExcel)
+        const listaExcelLength = autoFitCells(listaExcel)
+
+        var wscols = [
+            { width: listaExcelLength[0] },
+            { width: listaExcelLength[1] },
+            { width: listaExcelLength[2] },
+            { width: listaExcelLength[3] },
+            { width: listaExcelLength[4] },
+            { width: listaExcelLength[5] },
+            { width: listaExcelLength[6] },
+            { width: listaExcelLength[7] },
+        ]
+
+        ws['!cols'] = wscols
+
+        const wb = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(wb, ws, 'SheetJS')
+        XLSX.writeFile(wb, 'Lista Expedientes.xlsx')
+    }
+
     const obtenerRegistros = (filtro = '') => {
         if (!usuario) return
 
@@ -93,10 +126,67 @@ const ListaExpeju = () => {
                         })
 
                         setLista(listaDefinitiva)
+                        setOrderBy('DESCRIPCION_TEMA')
                     } else {
                         setLista(null)
                     }
-                } else {
+                }
+                return jsdo
+            },
+            error => {
+                setLoading(false)
+                console.log('error ListaExpeju', error)
+                return error
+            }
+        )
+    }
+
+    const obtenerRegistrosExcel = (filtro = '') => {
+        if (!usuario) return
+
+        setListaExcel(null)
+        setLoading(true)
+
+        obtenerRegistrosExpeju(filtro).then(
+            jsdo => {
+                setLoading(false)
+                if (!jsdo) {
+                    // Sesión caducada
+                    guardaUsuario(null)
+                    history.push('/')
+                    return
+                }
+
+                const { success, request } = jsdo
+                if (success) {
+                    const listaExcel = request.response.dsEXPEJU.ttEXPEJU
+                    if (listaExcel) {
+                        const listaDefinitiva = listaExcel.map(registro => {
+                            // Mapeamos los valores calculados no obligatorios y fecha nulos a blanco
+                            return {
+                                ...registro,
+                                FECTOP: registro.FECTOP ? registro.FECTOP : '',
+                                NOMBRE_OBRA: registro.NOMBRE_OBRA || '',
+                                NOMBRE_RESPONSABLE:
+                                    registro.NOMBRE_RESPONSABLE || '',
+                            }
+                        })
+
+                        setListaExcel(
+                            listaDefinitiva.map(elemento => {
+                                return {
+                                    Tema: elemento.DESCRIPCION_TEMA,
+                                    Asunto: elemento.ASUNTO,
+                                    Comentarios: elemento.OBSERV,
+                                    Abogado: elemento.NOMBRE_ABOGADO,
+                                    Estado: elemento.ESTADO,
+                                    'Fecha Tope': formateaFecha(
+                                        elemento.FECTOP
+                                    ),
+                                }
+                            })
+                        )
+                    }
                 }
                 return jsdo
             },
@@ -134,13 +224,16 @@ const ListaExpeju = () => {
                     descripcion: 'Expediente Desc',
                 }
                 break
-            case 'Obra':
-                campoOrdenacion = { nombre: 'NOMBRE_OBRA', descripcion: 'Obra' }
-                break
-            case 'Obra Desc':
+            case 'Tema':
                 campoOrdenacion = {
-                    nombre: 'NOMBRE_OBRA DESC',
-                    descripcion: 'Obra Desc',
+                    nombre: 'DESCRIPCION_TEMA',
+                    descripcion: 'Tema',
+                }
+                break
+            case 'Tema Desc':
+                campoOrdenacion = {
+                    nombre: 'DESCRIPCION_TEMA DESC',
+                    descripcion: 'Tema Desc',
                 }
                 break
             case 'Abogado':
@@ -267,14 +360,13 @@ const ListaExpeju = () => {
         if (ordenacion && ordenacion.nombre) setOrderBy(ordenacion.nombre)
 
         actualizarVista(filtroExpeju, paginaExpeju, ordenacion)
-
-        // setAblFilter(filtroExpeju)
-        // setPaginaActual(paginaExpeju ? paginaExpeju : 1)
     }, [usuario, filtroExpeju, ordenacion])
 
-    // useEffect(() => {
-    //     setPaginaExpeju(paginaActual)
-    // }, [paginaActual])
+    useEffect(() => {
+        if (!listaExcel || listaExcel.length === 0) return
+
+        exportExcel()
+    }, [listaExcel])
 
     /* -------------------------------------------------------------------- */
     /* ---------------------------- RENDERIZADO --------------------------- */
@@ -317,8 +409,8 @@ const ListaExpeju = () => {
                     <table className='tabla'>
                         <thead className='tabla__thead'>
                             <tr>
+                                <th className='tabla__th'>Tema</th>
                                 <th className='tabla__th'>Expediente</th>
-                                <th className='tabla__th'>Obra</th>
                                 <th className='tabla__th'>Abogado</th>
                                 <th className='tabla__th'>Responsable</th>
                                 <th className='tabla__th'>Recurso</th>
@@ -335,6 +427,14 @@ const ListaExpeju = () => {
                                         key={registro.NUMEXP}
                                     >
                                         <td
+                                            className='tabla__td'
+                                            onClick={() =>
+                                                handleClick(registro)
+                                            }
+                                        >
+                                            {registro.DESCRIPCION_TEMA}
+                                        </td>
+                                        <td
                                             className='tabla__td align-right'
                                             onClick={() =>
                                                 handleClick(registro)
@@ -342,14 +442,7 @@ const ListaExpeju = () => {
                                         >
                                             {registro.CODEXP}
                                         </td>
-                                        <td
-                                            className='tabla__td'
-                                            onClick={() =>
-                                                handleClick(registro)
-                                            }
-                                        >
-                                            {registro.NOMBRE_OBRA}
-                                        </td>
+
                                         <td
                                             className='tabla__td'
                                             onClick={() =>
@@ -409,13 +502,22 @@ const ListaExpeju = () => {
                                 numeroRegistros > 0 ? 'registros' : 'registro'
                             }`}</span>
                         )}
-                        <button
-                            className='btn footer__btn'
-                            type='button'
-                            onClick={handleNuevo}
-                        >
-                            Alta
-                        </button>
+                        <div className='buttons-footer'>
+                            <button
+                                className='btn footer__btn'
+                                type='button'
+                                onClick={handleNuevo}
+                            >
+                                Alta
+                            </button>
+                            <button
+                                className='btn footer__btn'
+                                type='button'
+                                onClick={handleClickExport}
+                            >
+                                Excel
+                            </button>
+                        </div>
                     </footer>
                 </div>
             </div>

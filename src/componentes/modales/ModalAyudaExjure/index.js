@@ -35,7 +35,6 @@ const ModalAyudaExjure = ({
                 const { success, request } = jsdo
                 if (success) {
                     const lista = request.response.dsEXJURE.ttEXJURE
-                    console.log(lista)
                     setLista(lista)
                 } else {
                     console.log('ERROR', jsdo)
