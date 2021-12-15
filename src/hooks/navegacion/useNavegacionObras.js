@@ -4,8 +4,8 @@ import SolaresContext from 'context/SolaresContext'
 
 import { contarRegistros } from 'services/common'
 
-const useNavegacionExjuab = ({ tabla, obtenerRegistros }) => {
-    const { paginaExjuab, setPaginaExjuab } = useContext(SolaresContext)
+const useNavegacionExjute = ({ tabla, obtenerRegistros }) => {
+    const { paginaObras, setPaginaObras } = useContext(SolaresContext)
     const [numeroPaginas, setNumeroPaginas] = useState(0)
     const [numeroRegistros, setNumeroRegistros] = useState(0)
     const [ablFilter, setAblFilter] = useState('')
@@ -14,23 +14,23 @@ const useNavegacionExjuab = ({ tabla, obtenerRegistros }) => {
 
     const handleSiguiente = () => {
         const pagina =
-            paginaExjuab < numeroPaginas ? paginaExjuab + 1 : numeroPaginas
+            paginaObras < numeroPaginas ? paginaObras + 1 : numeroPaginas
 
-        setPaginaExjuab(pagina)
+        setPaginaObras(pagina)
     }
 
     const handleAnterior = () => {
-        const pagina = paginaExjuab > 1 ? paginaExjuab - 1 : paginaExjuab
+        const pagina = paginaObras > 1 ? paginaObras - 1 : paginaObras
 
-        setPaginaExjuab(pagina)
+        setPaginaObras(pagina)
     }
 
     const handlePrimero = () => {
-        setPaginaExjuab(1)
+        setPaginaObras(1)
     }
 
     const handleUltimo = () => {
-        setPaginaExjuab(numeroPaginas)
+        setPaginaObras(numeroPaginas)
     }
 
     const modificaNumeroLineas = lineas => {
@@ -52,7 +52,6 @@ const useNavegacionExjuab = ({ tabla, obtenerRegistros }) => {
         try {
             await obtenerRegistros(filtro)
             await contarRegistros(ablFilter, tabla).then(numeroRegistros => {
-                console.log('numeroRegistros', numeroRegistros)
                 if (numeroRegistros < numeroLineas) {
                     setNumeroPaginas(1)
                 } else if (numeroRegistros % numeroLineas === 0) {
@@ -72,17 +71,17 @@ const useNavegacionExjuab = ({ tabla, obtenerRegistros }) => {
     useEffect(async () => {
         /* Tenemos que poner específicamente !== null porque si está en blanco
             no funciona la llamada condicional */
-        if (ablFilter !== null && paginaExjuab !== 0) {
-            actualizarVista(ablFilter, paginaExjuab, orderBy)
+        if (ablFilter !== null && paginaObras !== 0) {
+            actualizarVista(ablFilter, paginaObras, orderBy)
         }
-    }, [ablFilter, paginaExjuab, numeroLineas, orderBy])
+    }, [ablFilter, paginaObras, numeroLineas, orderBy])
 
     return {
-        paginaExjuab,
+        paginaObras,
         numeroPaginas,
         numeroRegistros,
-        setPaginaExjuab,
         numeroLineas,
+        setPaginaObras,
         setAblFilter,
         setOrderBy,
         handlePrimero,
@@ -96,4 +95,4 @@ const useNavegacionExjuab = ({ tabla, obtenerRegistros }) => {
     }
 }
 
-export default useNavegacionExjuab
+export default useNavegacionExjute

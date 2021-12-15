@@ -8,7 +8,7 @@ import { obtenerRegistrosAuxiliar } from 'services/auxiliares'
 import Navegacion from 'componentes/Navegacion'
 
 // Hooks
-import useNavegacion from 'hooks/useNavegacion'
+import useNavegacionObras from 'hooks/navegacion/useNavegacionObras'
 
 const ModalAyudaObras = ({
     mostrarModal,
@@ -30,16 +30,15 @@ const ModalAyudaObras = ({
     /* ----------------------------- FUNCIONES ---------------------------- */
     /* -------------------------------------------------------------------- */
     const obtenerRegistros = filtro => {
-        mostrarModal &&
-            obtenerRegistrosAuxiliar(filtro, tabla).then(jsdo => {
-                const { success, request } = jsdo
-                if (success) {
-                    const lista = request.response.dsOBRAS.ttOBRAS
-                    setLista(lista)
-                } else {
-                    console.log('ERROR', jsdo)
-                }
-            })
+        obtenerRegistrosAuxiliar(filtro, tabla).then(jsdo => {
+            const { success, request } = jsdo
+            if (success) {
+                const lista = request.response.dsOBRAS.ttOBRAS
+                setLista(lista)
+            } else {
+                console.log('ERROR', jsdo)
+            }
+        })
     }
 
     const handleChange = e => {
@@ -73,16 +72,16 @@ const ModalAyudaObras = ({
 
     // Hook para la paginación
     const {
-        paginaActual,
+        paginaObras,
         numeroPaginas,
         numeroRegistros,
-        setPaginaActual,
+        setPaginaObras,
         setAblFilter,
         handlePrimero,
         handleSiguiente,
         handleAnterior,
         handleUltimo,
-    } = useNavegacion({
+    } = useNavegacionObras({
         tabla,
         obtenerRegistros,
     })
@@ -94,7 +93,7 @@ const ModalAyudaObras = ({
         if (!mostrarModal) return
 
         setAblFilter('')
-        setPaginaActual(1)
+        setPaginaObras(1)
     }, [mostrarModal])
 
     /* -------------------------------------------------------------------- */
@@ -107,7 +106,7 @@ const ModalAyudaObras = ({
                     <div className='main-ayuda'>
                         <h2>Listado de Obras</h2>
                         <Navegacion
-                            paginaActual={paginaActual}
+                            paginaActual={paginaObras}
                             numeroPaginas={numeroPaginas}
                             handleAnterior={handleAnterior}
                             handleSiguiente={handleSiguiente}

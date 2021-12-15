@@ -8,7 +8,7 @@ import { obtenerRegistrosAuxiliar } from 'services/auxiliares'
 import Navegacion from 'componentes/Navegacion'
 
 // Hooks
-import useNavegacion from 'hooks/useNavegacion'
+import useNavegacionExjuab from 'hooks/navegacion/useNavegacionExjuab'
 
 const ModalAyudaExjuab = ({
     mostrarModal,
@@ -30,16 +30,15 @@ const ModalAyudaExjuab = ({
     /* ----------------------------- FUNCIONES ---------------------------- */
     /* -------------------------------------------------------------------- */
     const obtenerRegistros = filtro => {
-        mostrarModal &&
-            obtenerRegistrosAuxiliar(filtro, tabla).then(jsdo => {
-                const { success, request } = jsdo
-                if (success) {
-                    const lista = request.response.dsEXJUAB.ttEXJUAB
-                    setLista(lista)
-                } else {
-                    console.log('ERROR', jsdo)
-                }
-            })
+        obtenerRegistrosAuxiliar(filtro, tabla).then(jsdo => {
+            const { success, request } = jsdo
+            if (success) {
+                const lista = request.response.dsEXJUAB.ttEXJUAB
+                setLista(lista)
+            } else {
+                console.log('ERROR', jsdo)
+            }
+        })
     }
 
     const handleChange = e => {
@@ -54,10 +53,10 @@ const ModalAyudaExjuab = ({
 
         if (!inputData || !label || !value || label === '') return
 
-        if (label === 'Abogado') {
+        if (label === 'Código') {
             const filtro = `CODABO >= ${value === '' ? 0 : parseInt(value)}`
             setAblFilter(filtro)
-        } else if (label === 'Nombre Abogado') {
+        } else if (label === 'Nombre') {
             const filtro = `NOMBRE MATCHES '*${value}*'`
             setAblFilter(filtro)
         }
@@ -73,16 +72,16 @@ const ModalAyudaExjuab = ({
 
     // Hook para la paginación
     const {
-        paginaActual,
-        numeroPaginas,
+        paginaActualExjuab,
+        numeroPaginasExjuab,
         numeroRegistros,
-        setPaginaActual,
+        setPaginaExjuab,
         setAblFilter,
         handlePrimero,
         handleSiguiente,
         handleAnterior,
         handleUltimo,
-    } = useNavegacion({
+    } = useNavegacionExjuab({
         tabla,
         obtenerRegistros,
     })
@@ -94,7 +93,7 @@ const ModalAyudaExjuab = ({
         if (!mostrarModal) return
 
         setAblFilter('')
-        setPaginaActual(1)
+        setPaginaExjuab(1)
     }, [mostrarModal])
 
     /* -------------------------------------------------------------------- */
@@ -107,8 +106,8 @@ const ModalAyudaExjuab = ({
                     <div className='main-ayuda'>
                         <h2>Listado de Abogados Exp. Judiciales</h2>
                         <Navegacion
-                            paginaActual={paginaActual}
-                            numeroPaginas={numeroPaginas}
+                            paginaActual={paginaActualExjuab}
+                            numeroPaginas={numeroPaginasExjuab}
                             handleAnterior={handleAnterior}
                             handleSiguiente={handleSiguiente}
                             handlePrimero={handlePrimero}

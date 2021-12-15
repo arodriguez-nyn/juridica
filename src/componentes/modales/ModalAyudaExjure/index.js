@@ -8,7 +8,7 @@ import { obtenerRegistrosAuxiliar } from 'services/auxiliares'
 import Navegacion from 'componentes/Navegacion'
 
 // Hooks
-import useNavegacion from 'hooks/useNavegacion'
+import useNavegacionExjure from 'hooks/navegacion/useNavegacionExjure'
 
 const ModalAyudaExjure = ({
     mostrarModal,
@@ -30,16 +30,15 @@ const ModalAyudaExjure = ({
     /* ----------------------------- FUNCIONES ---------------------------- */
     /* -------------------------------------------------------------------- */
     const obtenerRegistros = filtro => {
-        mostrarModal &&
-            obtenerRegistrosAuxiliar(filtro, tabla).then(jsdo => {
-                const { success, request } = jsdo
-                if (success) {
-                    const lista = request.response.dsEXJURE.ttEXJURE
-                    setLista(lista)
-                } else {
-                    console.log('ERROR', jsdo)
-                }
-            })
+        obtenerRegistrosAuxiliar(filtro, tabla).then(jsdo => {
+            const { success, request } = jsdo
+            if (success) {
+                const lista = request.response.dsEXJURE.ttEXJURE
+                setLista(lista)
+            } else {
+                console.log('ERROR', jsdo)
+            }
+        })
     }
 
     const handleChange = e => {
@@ -73,16 +72,16 @@ const ModalAyudaExjure = ({
 
     // Hook para la paginación
     const {
-        paginaActual,
+        paginaExjure,
         numeroPaginas,
         numeroRegistros,
-        setPaginaActual,
+        setPaginaExjure,
         setAblFilter,
         handlePrimero,
         handleSiguiente,
         handleAnterior,
         handleUltimo,
-    } = useNavegacion({
+    } = useNavegacionExjure({
         tabla,
         obtenerRegistros,
     })
@@ -94,7 +93,7 @@ const ModalAyudaExjure = ({
         if (!mostrarModal) return
 
         setAblFilter('')
-        setPaginaActual(1)
+        setPaginaExjure(1)
     }, [mostrarModal])
 
     /* -------------------------------------------------------------------- */
@@ -107,7 +106,7 @@ const ModalAyudaExjure = ({
                     <div className='main-ayuda'>
                         <h2>Listado de Responsables</h2>
                         <Navegacion
-                            paginaActual={paginaActual}
+                            paginaActual={paginaExjure}
                             numeroPaginas={numeroPaginas}
                             handleAnterior={handleAnterior}
                             handleSiguiente={handleSiguiente}
@@ -124,7 +123,7 @@ const ModalAyudaExjure = ({
                                     onChange={handleChange}
                                 >
                                     <option></option>
-                                    <option>Codigo</option>
+                                    <option>Código</option>
                                     <option>Nombre</option>
                                 </select>
                                 <input
